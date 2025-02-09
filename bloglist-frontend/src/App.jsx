@@ -3,12 +3,17 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import AddBlogForm from './components/AddBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -52,14 +57,39 @@ const App = () => {
     // clear user token and reload page to login form
     window.localStorage.clear()
     setUser(null)
-  } 
+  }
+  const handleSubmitBlog = async (event) => {
+    event.preventDefault()
+
+    try {
+      const blogInfo = await blogService.createBlog({ title, author, url }, user)
+      console.log(blogInfo)
+      const updatedBlogList = [...blogs, blogInfo]
+      setBlogs(updatedBlogList)
+      setTitle('')
+      setAuthor('')
+      setPassword('')
+      setUrl('')
+      setTimeoutU
+    } catch (error){
+      console.log(error)
+    }
+  }  
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value)
   }
-
   const handlePasswordChange = (event) => {
     setPassword(event.target.value)
+  }
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value)
   }
 
   const loginForm = () => {
@@ -82,6 +112,11 @@ const App = () => {
           <i>{user.name} is logged in </i>
           <button onClick={handleLogout}>logout</button>
         </p>
+        <h2>create new</h2>
+        <AddBlogForm title={title} author={author} url={url}
+          onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange}
+          onUrlChange={handleUrlChange} handleSubmitBlog={handleSubmitBlog}
+        /><br></br>
         {blogs.map(blog => (
           <Blog key={blog.blogId} blog={blog} />
         )
