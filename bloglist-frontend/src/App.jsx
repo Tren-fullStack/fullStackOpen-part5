@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import AddBlogForm from './components/AddBlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,7 +14,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -47,7 +48,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception){
-      console.log('wrong credentials')
+      setMessage('Invalid username or password')
+      setTimeout(() => {
+        setMessage(null)
+      }, '3000')
     }
   }
 
@@ -68,11 +72,16 @@ const App = () => {
       setBlogs(updatedBlogList)
       setTitle('')
       setAuthor('')
-      setPassword('')
       setUrl('')
-      setTimeoutU
+      setMessage(`${blogInfo.title} by ${blogInfo.author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, '3000')
     } catch (error){
-      console.log(error)
+      setMessage('Missing Fields')
+      setTimeout(() => {
+        setMessage(null)
+      }, '3000')
     }
   }  
 
@@ -96,6 +105,7 @@ const App = () => {
     return(
       <div>
         <h1>login</h1>
+        <Notification message={message} />
         <LoginForm username={username} password={password}
           handlePasswordChange={handlePasswordChange} 
           handleUsernameChange={handleUsernameChange}
@@ -108,6 +118,7 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <Notification message={message} />
         <p>
           <i>{user.name} is logged in </i>
           <button onClick={handleLogout}>logout</button>
