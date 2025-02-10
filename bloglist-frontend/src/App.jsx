@@ -98,10 +98,23 @@ const App = () => {
         }, '3000')
       }
       else {
-        const updatedBlogList = await blogService.getAll()
+        const updatedBlogList = blogs.filter(blog => blog.blogId !== blogId)
         setBlogs(updatedBlogList)
       }
     }
+  }
+
+  const handleAddLike = async (blogId) => {
+    await blogService.addLike(blogId)
+
+    for (let i=0; i<blogs.length; i++) {
+      if (blogs[i].blogId===blogId) {
+        blogs[i].likes += 1
+        console.log(blogs[i].likes)
+        break
+      }
+    }
+    setBlogs([...blogs])
   }
 
   const handleUsernameChange = (event) => {
@@ -145,7 +158,7 @@ const App = () => {
         <AddBlogForm title={title} author={author} url={url}
           onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange}
           onUrlChange={handleUrlChange} handleSubmitBlog={handleSubmitBlog} blogs={blogs}
-          handleRemove={handleRemove} user={user}
+          handleRemove={handleRemove} user={user} handleAddLike={handleAddLike}
         />
       </div>
     )

@@ -6,15 +6,23 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const removeBlog = async (blogInfo, user) => {
+const removeBlog = async (blogId, user) => {
   const config = {
     headers: { Authorization: `Bearer ${user.token}` },
   }
   try {
-    await axios.delete(`${baseUrl}/${blogInfo}`, config)
-  } catch (err){
+    await axios.delete(`${baseUrl}/${blogId}`, config)
+  } catch {
     const unathorized = `Cannot delete other user\'s posts`
     return unathorized
+  }
+}
+
+const addLike = async (blogId) => {
+  try {
+    await axios.put(`${baseUrl}/${blogId}`)
+  } catch(err) {
+    console.log('something fucked up', err)
   }
 }
 
@@ -30,4 +38,4 @@ const createBlog = async (blogInfo, user) => {
   }
 }
 
-export default { getAll, createBlog, removeBlog }
+export default { getAll, createBlog, removeBlog, addLike }
