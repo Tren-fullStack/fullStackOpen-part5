@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Blog from './Blog'
 
-const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlChange, handleSubmitBlog, blogs }) => {
+const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlChange, handleSubmitBlog, blogs, user, handleRemove }) => {
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
 
   const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
@@ -50,7 +50,7 @@ const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlC
     <div>
       {blogs.map(blog => (
         <Blog key={blog.blogId} blog={blog} onViewClick={() => setBlogDetailsVisible(true)}
-         name={blog.user.name}/>
+         name={blog.user.name} handleRemove={handleRemove} user={user}/>
       ))}
     </div>
   </form>

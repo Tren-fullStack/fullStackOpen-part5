@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, name }) => {
-  console.log('who created blog:',name)
+const Blog = ({ blog, name, user, handleRemove }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -22,7 +21,8 @@ const Blog = ({ blog, name }) => {
       <div style={showDetails}>
         {blog.url}<br></br>
         likes {blog.likes}<button type='button'>like</button><br></br>
-        {name}
+        {name}<br></br>
+        <button type='button' onClick={() => handleRemove(blog.blogId, user, blog.title, blog.author)}>remove</button>
       </div>
     </div>
   )  

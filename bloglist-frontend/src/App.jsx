@@ -83,7 +83,26 @@ const App = () => {
         setMessage(null)
       }, '3000')
     }
-  }  
+  } 
+  
+  const handleRemove = async (blogId, user, title, author) => {
+    // asks user for confirmation
+    if (window.confirm(`Remove ${title} by ${author}`)) {
+      const unathorized = await blogService.removeBlog(blogId, user)
+
+      // checks if user has token authentication for that post
+      if(unathorized) {
+        setMessage(unathorized)
+        setTimeout(() => {
+          setMessage(null)
+        }, '3000')
+      }
+      else {
+        const updatedBlogList = await blogService.getAll()
+        setBlogs(updatedBlogList)
+      }
+    }
+  }
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value)
@@ -126,7 +145,8 @@ const App = () => {
         <AddBlogForm title={title} author={author} url={url}
           onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange}
           onUrlChange={handleUrlChange} handleSubmitBlog={handleSubmitBlog} blogs={blogs}
-          username={user.name}/>
+          handleRemove={handleRemove} user={user}
+        />
       </div>
     )
   }
