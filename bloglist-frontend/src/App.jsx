@@ -15,10 +15,6 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [message, setMessage] = useState(null)
-  const [createBlogVisible, setCreateBlogVisible] = useState(false)
-
-  const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
-  const showWhenVisible = { display: createBlogVisible ? '' : 'none' }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -127,13 +123,9 @@ const App = () => {
           <i>{user.name} is logged in </i>
           <button onClick={handleLogout}>logout</button>
         </p>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setCreateBlogVisible(true)}>new blog</button>
-        </div>
         <AddBlogForm title={title} author={author} url={url}
           onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange}
           onUrlChange={handleUrlChange} handleSubmitBlog={handleSubmitBlog} 
-          onClick={() => setCreateBlogVisible(false)} showWhenVisible={showWhenVisible}
         /><br></br>
         {blogs.map(blog => (
           <Blog key={blog.blogId} blog={blog} />
