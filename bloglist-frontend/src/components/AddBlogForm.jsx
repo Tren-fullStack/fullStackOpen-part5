@@ -1,6 +1,7 @@
-const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlChange, handleSubmitBlog }) => {
-  return(  
-  <form method='post' onSubmit={handleSubmitBlog}>
+const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlChange, handleSubmitBlog, onClick, showWhenVisible }) => {
+  return(
+  <form method='post' onSubmit={handleSubmitBlog} style={showWhenVisible}>
+    <h2>create new</h2>  
     <div>
       title:
       <input
@@ -30,6 +31,7 @@ const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlC
     </div>
     <div>
       <button type='submit'>create</button>
+      <button type='button' onClick={onClick}>cancel</button>
     </div>
   </form>
   )
