@@ -125,12 +125,8 @@ const App = () => {
         </p>
         <AddBlogForm title={title} author={author} url={url}
           onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange}
-          onUrlChange={handleUrlChange} handleSubmitBlog={handleSubmitBlog} 
-        /><br></br>
-        {blogs.map(blog => (
-          <Blog key={blog.blogId} blog={blog} />
-        )
-        )}
+          onUrlChange={handleUrlChange} handleSubmitBlog={handleSubmitBlog} blogs={blogs}
+          username={user.name}/>
       </div>
     )
   }

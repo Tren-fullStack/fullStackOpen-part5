@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import Blog from './Blog'
 
-const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlChange, handleSubmitBlog }) => {
+const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlChange, handleSubmitBlog, blogs }) => {
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
 
   const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: createBlogVisible ? '' : 'none' }
+
   
   return(
   <form method='post' onSubmit={handleSubmitBlog}>
@@ -44,6 +46,12 @@ const AddBlogForm = ({ title, author, url, onTitleChange, onAuthorChange, onUrlC
         <button type='submit'>create</button>
         <button type='button' onClick={() => setCreateBlogVisible(false)}>cancel</button>
       </div>
+    </div>
+    <div>
+      {blogs.map(blog => (
+        <Blog key={blog.blogId} blog={blog} onViewClick={() => setBlogDetailsVisible(true)}
+         name={blog.user.name}/>
+      ))}
     </div>
   </form>
   )
