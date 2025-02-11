@@ -14,7 +14,7 @@ const Blog = ({ blog, name, user, handleRemove, handleAddLike }) => {
   const showDetails = { display: blogDetailsVisible ? '' : 'none' }
 
   return(
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog' data-testid='1002'>
       {blog.title}, written by {blog.author}
       <button  style={hideDetails} type='button' onClick={() => setBlogDetailsVisible(true)}>view</button>
       <button style={showDetails} type='button' onClick={() => setBlogDetailsVisible(false)}>hide</button>
