@@ -16,10 +16,19 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [message, setMessage] = useState(null)
 
+  const sortBlogs = async () => {
+    try {
+      let sortedBlogs = await blogService.getAll()
+
+      // sort blogs by number of likes
+      sortedBlogs = sortedBlogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(sortedBlogs)
+    } catch (err) {
+      console.log('something fucked up', err)
+    }
+  }
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    ) 
+    sortBlogs()
   }, [])
 
   useEffect(() => {
@@ -115,6 +124,7 @@ const App = () => {
       }
     }
     setBlogs([...blogs])
+    sortBlogs((a, b) => b.likes - a.likes)
   }
 
   const handleUsernameChange = (event) => {
