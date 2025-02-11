@@ -92,8 +92,8 @@ const App = () => {
         setMessage(null)
       }, '3000')
     }
-  } 
-  
+  }
+
   const handleRemove = async (blogId, user, title, author) => {
     // asks user for confirmation
     if (window.confirm(`Remove ${title} by ${author}`)) {
@@ -149,7 +149,7 @@ const App = () => {
         <h1>login</h1>
         <Notification message={message} />
         <LoginForm username={username} password={password}
-          handlePasswordChange={handlePasswordChange} 
+          handlePasswordChange={handlePasswordChange}
           handleUsernameChange={handleUsernameChange}
           handleLogin={handleLogin}/>
       </div>
@@ -173,7 +173,7 @@ const App = () => {
       </div>
     )
   }
-  
+
   return (
     <div>
       {user === null ?

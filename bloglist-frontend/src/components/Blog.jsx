@@ -19,7 +19,7 @@ const Blog = ({ blog, name, user, handleRemove, handleAddLike }) => {
       <button  style={hideDetails} type='button' onClick={() => setBlogDetailsVisible(true)}>view</button>
       <button style={showDetails} type='button' onClick={() => setBlogDetailsVisible(false)}>hide</button>
       <div style={showDetails}>
-        {blog.url}
+        <a href={blog.url}>{blog.url}</a>
         <br></br>
         likes {blog.likes}<button type='button' onClick={() => handleAddLike(blog.blogId)}>like</button>
         <br></br>

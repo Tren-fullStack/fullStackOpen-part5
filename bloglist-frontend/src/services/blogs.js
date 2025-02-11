@@ -13,7 +13,7 @@ const removeBlog = async (blogId, user) => {
   try {
     await axios.delete(`${baseUrl}/${blogId}`, config)
   } catch {
-    const unathorized = `Cannot delete other user\'s posts`
+    const unathorized = 'Cannot delete other user\'s posts'
     return unathorized
   }
 }

@@ -4,15 +4,15 @@ const baseUrl = '/api/login'
 let token = null
 
 const setToken = (newToken) => {
-    token = `Bearer ${newToken}`
+  token = `Bearer ${newToken}`
 }
 
 const login = async (credentials) => {
-    const config = {
-        headers: { Authorization: token },
-    }
-    const response = await axios.post(baseUrl, credentials, config)
-    return response.data
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.post(baseUrl, credentials, config)
+  return response.data
 }
 
 export default { login, setToken }
