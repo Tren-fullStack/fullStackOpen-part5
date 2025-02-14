@@ -24,7 +24,7 @@ const Blog = ({ blog, name, user, handleRemove, handleAddLike }) => {
         likes {blog.likes}<button type='button' onClick={() => handleAddLike(blog.blogId)}>like</button>
         <br></br>
         {name}
-        <br></br>
+        <br />
         <button type='button' onClick={() => handleRemove(blog.blogId, user, blog.title, blog.author)}>
           remove
         </button>

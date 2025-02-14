@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
+import UserForm from './components/UserForm'
+import signUpService from './services/signUp'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,6 +16,8 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [message, setMessage] = useState(null)
+  const [signUp, setSignUp] = useState(null)
+  const [name, setName] = useState('')
 
   const sortBlogs = async () => {
     try {
@@ -71,11 +74,12 @@ const App = () => {
     window.localStorage.clear()
     setUser(null)
   }
+
   const handleSubmitBlog = async (event) => {
     event.preventDefault()
 
     try {
-      const blogInfo = await blogService.createBlog({ title, author, url }, user)
+      let blogInfo = await blogService.createBlog({ title, author, url }, user)
       console.log(blogInfo)
       const updatedBlogList = [...blogs, blogInfo]
       setBlogs(updatedBlogList)
@@ -91,6 +95,29 @@ const App = () => {
       setTimeout(() => {
         setMessage(null)
       }, '3000')
+    }
+  }
+
+  const handleSignUp = async (event) => {
+    event.preventDefault()
+
+    try {
+      const newUser = await signUpService.trySignUp({ username, name, passHash: password })
+      console.log('New user:', newUser)
+      setPassword('')
+      setName('')
+      setUsername('')
+      setMessage(`account created`)
+      setTimeout(() => {
+        setMessage(null)
+        setSignUp(null)
+      }, '2000')
+    } catch (err) {
+      console.log(err)
+      setMessage('Missing Fields')
+      setTimeout(() => {
+        setMessage(null)
+      }, '2000')
     }
   }
 
@@ -143,6 +170,23 @@ const App = () => {
     setUrl(event.target.value)
   }
 
+  const handleClickNew = () => {
+    setPassword('')
+    setUsername('')
+    setSignUp(true)
+  }
+
+  const handleCancelSignup = () => {
+    setPassword('')
+    setUsername('')
+    setName('')
+    setSignUp(null)
+  }
+
+  const handleNameChange = (event) => {
+    setName(event.target.value)
+  }
+
   const loginForm = () => {
     return(
       <div>
@@ -151,7 +195,20 @@ const App = () => {
         <LoginForm username={username} password={password}
           handlePasswordChange={handlePasswordChange}
           handleUsernameChange={handleUsernameChange}
-          handleLogin={handleLogin}/>
+          handleLogin={handleLogin} handleClickNew={() => handleClickNew()}/>
+      </div>
+    )
+  }
+
+  const newUserForm = () => {
+    return(
+      <div>
+        <h1>sign up</h1>
+        <Notification message={message} />
+        <UserForm username={username} password={password} name={name}
+        handleNameChange={handleNameChange} handlePasswordChange={handlePasswordChange}
+        handleUsernameChange={handleUsernameChange} handleSignUp={handleSignUp}
+        handleCancelSignup={handleCancelSignup}/>
       </div>
     )
   }
@@ -176,10 +233,13 @@ const App = () => {
 
   return (
     <div>
-      {user === null ?
+      {user === null && signUp === null ?
         loginForm() :
+        user === null ?
+        newUserForm():
         blogList()
       }
+      {}
     </div>
   )
 }
